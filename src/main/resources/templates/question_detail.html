@@ -1,0 +1,172 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>중고나라</title>-->
+<!--    <link rel="stylesheet" type="text/css" th:href="@{/style.css}">-->
+
+<!--</head>-->
+<!--<body>-->
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WigleWigle</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" />
+    <link rel="stylesheet" th:href="@{/css/shopping-list.css}" />
+
+</head>
+<body>
+
+<nav class="fixed-top bg-header-color py-4">
+    <div class="app-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <a th:href="@{/}" class="text-white">
+						<span class="font-size-medium font-weight-bold">
+								Wiggle Wiggle💖
+						</span>
+            </a>
+            <div style="float: right;">
+                <div style="display: inline-block; margin: 0 5px;">
+                    <a th:href="@{/}" class="text-white font-size-small">Home</a>
+                </div>
+                <div style="display: inline-block; margin: 0 5px;">
+                    <a th:href="@{/shoppinglists}" class="text-white font-size-small">ShoppingLists</a>
+                </div>
+                <div style="display: inline-block; margin: 0 5px;">
+                    <a th:href="@{/question/list}" class="text-white font-size-small">Q&A</a>
+                </div>
+                <div style="display: inline-block; margin: 0 5px;">
+                    <a th:href="@{/logout}" class="text-white font-size-small">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</nav>
+<div class="container my-3">
+    <!-- 질문 -->
+    <h2 class="border-bottom py-2" th:text="${question.subject}"></h2>
+    <div class="card my-3">
+        <div class="card-body">
+            <div class="card-text" style="white-space: pre-line;" th:text="${question.content}"></div>
+
+            <!--수정날짜 등록-->
+            <div class="d-flex justify-content-end">
+                <div th:if="${question.modifyDate !=null}" class="badge bg-light text-dark p-2 text-start mx-3">
+                    <div class="mb-2">modified at</div>
+                    <div th:text="${#temporals.format(question.modifyDate, 'yyyy-MM-dd HH:mm')}"></div>
+                </div>
+
+                <!--질문 등록 일자-->
+                <div class="badge bg-light text-dark p-2 text-start">
+                    <div class="mb-2">
+                        <span th:if="${question.author !=null}" th:text="${question.author.name}"></span>
+                    </div>
+                    <div th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></div>
+                </div>
+            </div>
+            <!--질문 추천 버튼-->
+            <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
+               th:data-uri="@{|/question/vote/${question.id}|}">
+                추천
+                <span class="badge rounded-pill bg-success" th:text="${#lists.size(question.voter)}"></span>
+            </a>
+         <!--질문 수정 삭제 버튼-->
+            <div class="my-3">
+                <a th:href="@{|/question/modify/${question.id}|}" class="btn btn-primary btn-sm"
+                   sec:authorize="isAuthenticated()"
+                   th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.email}"
+                   th:text="Edit"></a>
+                <a href="javascript:void(0);" th:data-uri="@{|/question/delete/${question.id}|}"
+                   class="delete btn btn-danger btn-sm" sec:authorize="isAuthenticated()"
+                   th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.email}"
+                   th:text="Delete"></a>
+            </div>
+        </div>
+    </div>
+    <!-- 답변의 갯수 표시 -->
+    <h5 class="border-bottom my-3 py-2"
+        th:text="|${#lists.size(question.answerList)}개의 답변이 있습니다.|"></h5>
+    <!-- 답변 반복 시작 -->
+    <div class="card my-3" th:each="answer : ${question.answerList}">
+        <div class="card-body">
+            <div class="card-text" style="white-space: pre-line;" th:text="${answer.content}"></div>
+            <!--답변 수정 일자-->
+            <div class="d-flex justify-content-end">
+            <div th:if="${answer.modifyDate != null}" class="badge bg-light text-dark p-2 text-start mx-3">
+                <div class="mb-2">modified at</div>
+                <div th:text="${#temporals.format(answer.modifyDate, 'yyyy-MM-dd HH:mm')}"></div>
+            </div>
+
+            <!--답변 등록 일자-->
+                <div class="badge bg-light text-dark p-2 text-start">
+                    <div class="mb-2">
+                        <span th:if="${question.author !=null}" th:text="${question.author.name}"></span>
+                    </div>
+                    <div th:text="${#temporals.format(answer.createDate, 'yyyy-MM-dd HH:mm')}"></div>
+                </div>
+            </div>
+            <!--답변 추천 버튼-->
+            <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
+               th:data-uri="@{|/answer/vote/${answer.id}|}">
+                추천
+                <span class="badge rounded-pill bg-success" th:text="${#lists.size(answer.voter)}"></span>
+            </a>
+            <!--답변 수정삭제 버튼-->
+            <div class="my-3">
+                <a th:href="@{|/answer/modify/${answer.id}|}" class="btn btn-primary btn-sm"
+                   sec:authorize="isAuthenticated()"
+                   th:if="${answer.author !=null and #authentication.getPrincipal().getUsername() == answer.author.email}"
+                   th:text="Edit"></a>
+                <a href="javascript:void(0);" th:data-uri="@{|/answer/delete/${answer.id}|}"
+                   class="delete btn btn-danger btn-sm" sec:authorize="isAuthenticated()"
+                   th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.email}"
+                   th:text="Delete"></a>
+
+
+
+            </div>
+        </div>
+    </div>
+    <!-- 답변 반복 끝  -->
+    <!-- 답변 작성 -->
+    <form th:action="@{|/answer/create/${question.id}|}" th:object="${answerForm}" method="post" class="my-3">
+        <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+            <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+        </div>
+        <textarea sec:authorize="isAnonymous()" disabled th:field="*{content}" rows="10" class="form-control"></textarea>
+        <textarea sec:authorize="isAuthenticated()" th:field="*{content}" rows="10" class="form-control"></textarea>
+        <input type="submit" value="답변등록" class="btn btn-primary my-2">
+    </form>
+</div>
+<!--자바스크립트-->
+<!--삭제 확인 창-->
+<script>
+    const delete_elements = document.getElementsByClassName('delete')
+    Array.from(delete_elements).forEach(function(element){
+        element.addEventListener('click', function () {
+            if(confirm('정말로 삭제하시겠습니까?')){
+                location.href = this.dataset.uri;
+            }
+        });
+    });
+/*질문 확인 창*/
+    const recommend_elements = document.getElementsByClassName("recommend");
+    Array.from(recommend_elements).forEach(function (element){
+        element.addEventListener('click', function (){
+            if(confirm("정말로 추천하시겟습니까?")){
+                location.href = this.dataset.uri;
+            };
+        });
+    });
+
+
+
+</script>
+
+
+</body>
+</html>

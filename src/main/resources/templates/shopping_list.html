@@ -1,0 +1,217 @@
+<!--
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>중고나라</title>
+</head>
+<body>
+<h1>구매 목록 리스트</h1>
+<hr />
+<h2>구매 비용 합계는
+  <span th:text="|${#numbers.formatInteger(total,0,'COMMA')}원|"></span> 입니다.
+</h2>
+
+<form th:object="${filter}" th:action="@{/filterShoppingLists}" method="get">
+  키워드 검색 : <input type="text" th:field="*{keyword}" placeholder="키워드 입력"/>
+  <input type="date" th:field="*{startDate}"/>
+  <input type="date" th:field="*{endDate}"/>
+
+  <input type="submit" value="검색"/>
+</form>
+<div>
+  <a th:href="@{/createList}">구매 상품 등록</a>
+</div>
+<table border="1">
+
+  <thead>
+  <th>구매 물품</th>
+  <th>물품 상세설명</th>
+  <th>가격</th>
+  <th>날짜</th>
+  <th>삭제/수정</th>
+  </thead>
+  <tbody>
+  <tr th:each="shop : ${shoppingLists}">
+    <td th:text="${shop.name}"></td>
+    <td th:text="${shop.description}"></td>
+    <td th:text="|${#numbers.formatInteger(shop.price,0,'COMMA')}원|"></td>
+    <td th:text="${shop.dateString}"></td>
+    <td>
+      <a onclick="return confirm('정말로 삭제할까요?')" th:href="@{/deleteShopping(id=${shop.listId})}">삭제</a>
+      |<a th:href="@{/updateShopping(id=${shop.listId})}">수정</a>
+    </td>
+&lt;!&ndash;  <td th:text="${#dates.format(#dates, 'yyyy-MM-dd')}"></td>&ndash;&gt;
+
+  </tr>
+  </tbody>
+</table>
+
+
+
+</body>
+</html>-->
+
+
+
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WigleWigle</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
+  <link rel="stylesheet" th:href="@{/css/base.css}" />
+  <link rel="stylesheet" th:href="@{/css/shopping-list.css}" />
+
+</head>
+<body>
+
+<nav class="fixed-top bg-header-color py-4">
+  <div class="app-header">
+    <div class="d-flex justify-content-between align-items-center">
+      <a th:href="@{/}" class="text-white">
+						<span class="font-size-medium font-weight-bold">
+								Wiggle Wiggle💖
+						</span>
+      </a>
+      <div style="float: right;">
+        <div style="display: inline-block; margin: 0 5px;">
+        <a th:href="@{/}" class="text-white font-size-small">Home</a>
+      </div>
+          <div style="display: inline-block; margin: 0 5px;">
+              <a th:href="@{/shoppinglists}" class="text-white font-size-small">ShoppingLists</a>
+          </div>
+        <div style="display: inline-block; margin: 0 5px;">
+        <a th:href="@{/question/list}" class="text-white font-size-small">Q&A</a>
+      </div>
+        <div style="display: inline-block; margin: 0 5px;">
+        <a th:href="@{/logout}" class="text-white font-size-small">Logout</a>
+      </div>
+  </div>
+    </div>
+  </div>
+  </div>
+</nav>
+<div class="main-content">
+  <div class="container-fluid bg-light py-4 mb-2">
+    <div class="app-header">
+      <h2 class="font-weight-light">
+        당신의 구매 상품은 총 <span th:text="${shoppingLists.size()}"></span>
+        개이고 <br>상품 합계는
+        <span th:text="|${#numbers.formatInteger(total,0,'COMMA')}원|"></span> 입니다.
+      </h2>
+      <div class="mt-4">
+        <a class="btn button_default text-white"
+           th:href="@{/createList}">구매 상품 등록</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-header">
+    <form method="get" th:object="${filter}" th:action="@{/filtershoppinglists}">
+      <div class="row mb-2">
+
+        <div class="col-md-2 col-sm-6 col-12 mb-2">
+          <input type="text"
+                 placeholder="키워드 입력"
+                 autocomplete="off"
+                 th:field="*{keyword}"
+                 class="form-control"/>
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-12 mb-2">
+          <input type="date"
+                 id="startDate"
+                 placeholder="start date"
+                 th:field="*{startDate}"
+                 class="form-control"/>
+        </div>
+          <div class="col-md-3 col-sm-6 col-12 mb-2">
+              <input type="date"
+                     id="endDate"
+                     placeholder="end date"
+                     th:field="*{endDate}"
+                     class="form-control" />
+          </div>
+
+        <div class="col-md-2 col-sm-12 col-12">
+          <input type="submit" value="검색" class="btn button_default form-control"/>
+        </div>
+      </div>
+    </form>
+
+    <table class="table">
+      <thead>
+      <tr>
+<!--        <th>ID</th>-->
+        <th style="width:30%">Product</th>
+          <th style="width:20%">Image</th>
+
+          <th style="width:20%">Price</th>
+ <!--       <th>Image</th>-->
+        <th style="width:20%">Date</th>
+        <th style="width:20%">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="shop: ${shoppingLists}">
+<!--        <td th:text="${shop.id}"></td>-->
+        <td th:text="${shop.name}"></td>
+         <td>
+             <img th:src="@{|/images/${shop.imageFile}|}" width="100">
+        </td>
+          <td th:text="|${#numbers.formatInteger(shop.price,0,'COMMA')}원|"></td>
+     <!--   <td>
+          <img th:src="@{'/images/'+${shop.imageFileName}}" width="100">
+        </td>-->
+        <td th:text="${shop.dateString}"></td>
+        <td style="white-space: nowrap">
+          <a class="btn btn-primary btn-sm" th:href="@{/updateShopping(id=${shop.listId})}">
+            Edit
+          </a>
+          <a class="btn btn-danger btn-sm" th:href="@{/deleteShopping(id=${shop.listId})}"
+             onclick="return confirm('정말로 삭제합니까?')"
+          >
+            Delete
+          </a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <!--  <div class="card mb-4">
+    <div class="card-header card-background__header fw-bold">Product
+      <span class="float-end fw-bold">Price</span></div>
+    <table border="1">
+      <div class="border-bottom" th:each="shop: ${shoppingLists}">
+        <a th:href="@{/updateShopping(id=${shop.listId})}">
+          <div class="d-flex flex-row justify-content-between align-items-center px-3 pt-4 pb-2">
+            <div>
+              <h3 class="text-capitalize text-dark" th:text="${shop.name}"></h3>
+              <span class="text-dark fst-italic" th:text="${shop.dateString}"></span>
+            </div>
+            <p class="text-dark font-size-xsmall badge rounded-pill bg-warning" th:text="|${#numbers.formatInteger(shop.price,0,'COMMA')}원|"></p>
+          </div>
+        </a>
+
+
+      </div>
+    </table>
+  </div>-->
+ </div>
+</div>
+</div>
+<footer class="py-5">
+  <div class="container">
+    <p class="m-0 text-center text-dark">
+      Copyright &copy; WigleWigle - 2024
+    </p>
+  </div>
+
+
+</footer>
+</body>
+</html>
+
+

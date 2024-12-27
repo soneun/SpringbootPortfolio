@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WigleWigle</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" />
+    <link rel="stylesheet" th:href="@{/css/shopping-form.css}" />
+
+</head>
+<body>
+
+<nav class="fixed-top bg-header-color py-4">
+    <div class="app-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <a th:href="@{/}" class="text-white">
+						<span class="font-size-medium font-weight-bold">
+								Wiggle Wiggle💖
+						</span>
+            </a>
+            <div style="float: right;">
+                <div style="display: inline-block; margin: 0 5px;">
+                    <a th:href="@{/}" class="text-white font-size-small">Home</a>
+                </div>
+                <div style="display: inline-block; margin: 0 5px;">
+                    <a th:href="@{/shoppinglists}" class="text-white font-size-small">ShoppingLists</a>
+                </div>
+                <div style="display: inline-block; margin: 0 5px;">
+                    <a th:href="@{/question/list}" class="text-white font-size-small">Q&A</a>
+                </div>
+                <div style="display: inline-block; margin: 0 5px;">
+                    <a th:href="@{/logout}" class="text-white font-size-small">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</nav>
+<div class="main-content">
+    <div class="container-fluid bg-light py-4 mb-4">
+        <div class="app-header">
+            <h1 >답변 수정하기</h1>
+        </div>
+    </div>
+    <div class="app-header">
+        <form th:object="${answerForm}" method="post">
+<!--            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+            <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+                <div th:each="err : ${#fields.allErrors()}" th:text="${err}"></div>
+            </div>
+
+<!--            <div class="mb-3">-->
+<!--                <label for="subject" class="form-label">제목</label>-->
+<!--                <input type="text" th:field="*{subject}" class="form-control" />-->
+<!--            </div>-->
+            <div class="mb-3">
+                <label for="content" class="form-label">내용</label>
+                <textarea th:field="*{content}" class="form-control" rows="10"></textarea>
+            </div>
+            <input type="submit" value="저장하기" class="btn btn-primary my-2" />
+
+        </form>
+        <a th:href="@{/question/list}" class="btn btn-secondary text-white mt-2">Back to List</a>
+    </div>
+</div>
+<footer class="py-5">
+    <div class="container">
+        <p class="m-0 text-center text-dark">Copyright &copy; WigleWigle - 2024</p>
+    </div>
+</footer>
+
+
+<script th:src="@{/js/bootstrap.js}"></script>
+
+
+
+</body>
+</html>

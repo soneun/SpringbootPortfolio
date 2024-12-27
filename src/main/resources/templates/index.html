@@ -1,0 +1,163 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">-->
+<!--<head>-->
+<!--  <meta charset="utf-8" />-->
+<!--  <meta-->
+<!--          name="viewport"-->
+<!--          content="width=device-width, initial-scale=1, shrink-to-fit=no"-->
+<!--  />-->
+<!--  <meta name="description" content="" />-->
+<!--  <meta name="author" content="" />-->
+<!--  <title>중고나라</title>-->
+<!--  &lt;!&ndash; Favicon&ndash;&gt;-->
+<!--  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />-->
+<!--  &lt;!&ndash; Font Awesome icons (free version)&ndash;&gt;-->
+<!--  <script-->
+<!--          src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"-->
+<!--          crossorigin="anonymous"-->
+<!--  ></script>-->
+<!--  &lt;!&ndash; Google fonts&ndash;&gt;-->
+<!--  <link-->
+<!--          href="https://fonts.googleapis.com/css?family=Montserrat:400,700"-->
+<!--          rel="stylesheet"-->
+<!--          type="text/css"-->
+<!--  />-->
+<!--  <link-->
+<!--          href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700"-->
+<!--          rel="stylesheet"-->
+<!--          type="text/css"-->
+<!--  />-->
+<!--  &lt;!&ndash; Core theme CSS (includes Bootstrap)&ndash;&gt;-->
+<!--  <link href="css/styles.css" rel="stylesheet" />-->
+<!--</head>-->
+<!--<body id="page-top">-->
+<!--&lt;!&ndash; Navigation&ndash;&gt;-->
+<!--<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">-->
+<!--  <div class="container">-->
+<!--   <a class="navbar-brand" th:href="@{/}"-->
+<!--    ><img src="/assets/img/logo.png"></a>-->
+<!--   &lt;!&ndash; <a href="#" class="navbar-brand"><h3>중고나라</h3></a>&ndash;&gt;-->
+<!--    <button-->
+<!--            class="navbar-toggler"-->
+<!--            type="button"-->
+<!--            data-bs-toggle="collapse"-->
+<!--            data-bs-target="#navbarResponsive"-->
+<!--            aria-controls="navbarResponsive"-->
+<!--            aria-expanded="false"-->
+<!--            aria-label="Toggle navigation"-->
+<!--    >-->
+<!--      Menu-->
+<!--      <i class="fas fa-bars ms-1"></i>-->
+<!--    </button>-->
+<!--    <div class="collapse navbar-collapse" id="navbarResponsive">-->
+<!--      <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">-->
+<!--        <li class="nav-item">-->
+<!--          <a class="nav-link" href="/shoppinglists">Shopping list</a>-->
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+<!--          <a class="nav-link" href="/question/list">Q&A</a>-->
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+<!--          <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}">Login</a>-->
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+<!--          <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}">Logout</a>-->
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+<!--          <a class="nav-link" href="/register">Sign up</a>-->
+<!--        </li>-->
+
+<!--      </ul>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</nav>-->
+<!--&lt;!&ndash; Masthead&ndash;&gt;-->
+<!--<header class="masthead">-->
+<!--  <div class="container">-->
+<!--    <div class="masthead-subheading">중고나라에 오신 것을 환영합니다!</div>-->
+<!--    <br/>-->
+<!--    <div class="masthead-heading text-uppercase">지금 중고나라에서</div>-->
+<!--    <div class="masthead-heading text-uppercase">거래하세요!<br/></div>-->
+<!--    <a class="btn btn-primary btn-xl text-uppercase" href="#"-->
+<!--    >EVENT</a-->
+<!--    >-->
+<!--  </div>-->
+<!--</header>-->
+
+<!--&lt;!&ndash; Bootstrap core JS&ndash;&gt;-->
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>-->
+<!--&lt;!&ndash; Core theme JS&ndash;&gt;-->
+<!--<script src="js/scripts.js"></script>-->
+<!--&lt;!&ndash; * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *&ndash;&gt;-->
+<!--&lt;!&ndash; * *                               SB Forms JS                               * *&ndash;&gt;-->
+<!--&lt;!&ndash; * * Activate your form at https://startbootstrap.com/solution/contact-forms * *&ndash;&gt;-->
+<!--&lt;!&ndash; * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *&ndash;&gt;-->
+<!--<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>-->
+<!--</body>-->
+<!--</html>-->
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WigleWigle</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
+  <link rel="stylesheet" th:href="@{/css/base.css}" />
+  <link rel="stylesheet" th:href="@{/css/shopping-list.css}" />
+
+</head>
+<body>
+
+<nav class="fixed-top bg-header-color py-4">
+  <div class="app-header">
+    <div class="d-flex justify-content-between align-items-center">
+      <a th:href="@{/}" class="text-white">
+						<span class="font-size-medium font-weight-bold">
+								Wiggle Wiggle💖
+						</span>
+      </a>
+      <div style="float: right;">
+        <div style="display: inline-block; margin: 0 5px;">
+          <a th:href="@{/}" class="text-white font-size-small">Home</a>
+        </div>
+        <div style="display: inline-block; margin: 0 5px;">
+          <a th:href="@{/shoppinglists}" class="text-white font-size-small">ShoppingLists</a>
+        </div>
+        <div style="display: inline-block; margin: 0 5px;">
+          <a th:href="@{/question/list}" class="text-white font-size-small">Q&A</a>
+        </div>
+        <div style="display: inline-block; margin: 0 5px;">
+          <a th:href="@{/logout}" class="text-white font-size-small">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<br/><br/><br/>
+
+<!--이미지 삽입-->
+<div class="image-container" style="text-align: center; margin-top: 20px;">
+  <img src="/assets/img/main.png" alt="" style="width: 100%; max-width: 2200px;">
+</div>
+
+<br/>
+<div class="image-container" style="text-align: center; margin-top: 20px;">
+  <img src="/assets/img/always.png" alt="" style="width: 100%; max-width: 1000px;">
+</div>
+
+
+<footer class="py-4">
+  <div class="container">
+    <p class="m-0 text-center text-dark">
+      Copyright &copy; WigleWigle - 2024
+    </p>
+  </div>
+</footer>
+
+
+
+
+
+</body>
+</html>

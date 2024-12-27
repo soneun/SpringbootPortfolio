@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WigleWigle</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
+  <link rel="stylesheet" th:href="@{/css/base.css}" />
+  <link rel="stylesheet" th:href="@{/css/shopping-list.css}" />
+
+</head>
+<body>
+
+<nav class="fixed-top bg-header-color py-4">
+  <div class="app-header">
+    <div class="d-flex justify-content-between align-items-center">
+      <a th:href="@{/}" class="text-white">
+						<span class="font-size-medium font-weight-bold">
+								Wiggle Wiggle💖
+						</span>
+      </a>
+      <div style="float: right;">
+        <div style="display: inline-block; margin: 0 5px;">
+          <a th:href="@{/}" class="text-white font-size-small">Home</a>
+        </div>
+        <div style="display: inline-block; margin: 0 5px;">
+          <a th:href="@{/shoppinglists}" class="text-white font-size-small">ShoppingLists</a>
+        </div>
+        <div style="display: inline-block; margin: 0 5px;">
+          <a th:href="@{/question/list}" class="text-white font-size-small">Q&A</a>
+        </div>
+        <div style="display: inline-block; margin: 0 5px;">
+          <a th:href="@{/logout}" class="text-white font-size-small">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

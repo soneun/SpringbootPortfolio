@@ -1,0 +1,146 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8" />-->
+<!--    <meta http-equiv="X-UA-Compatible" content="IE=edge" />-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0" />-->
+<!--    <title>중고나라</title>-->
+<!--</head>-->
+<!--<body>-->
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WigleWigle</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
+    <link rel="stylesheet" th:href="@{/css/base.css}" />
+    <link rel="stylesheet" th:href="@{/css/shopping-list.css}" />
+
+</head>
+<body>
+
+<nav class="fixed-top bg-header-color py-4">
+    <div class="app-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <a th:href="@{/}" class="text-white">
+						<span class="font-size-medium font-weight-bold">
+								Wiggle Wiggle💖
+						</span>
+            </a>
+            <div style="float: right;">
+                <div style="display: inline-block; margin: 0 5px;">
+                    <a th:href="@{/}" class="text-white font-size-small">Home</a>
+                </div>
+                <div style="display: inline-block; margin: 0 5px;">
+                    <a th:href="@{/shoppinglists}" class="text-white font-size-small">ShoppingLists</a>
+                </div>
+                <div style="display: inline-block; margin: 0 5px;">
+                    <a th:href="@{/question/list}" class="text-white font-size-small">Q&A</a>
+                </div>
+                <div style="display: inline-block; margin: 0 5px;">
+                    <a th:href="@{/logout}" class="text-white font-size-small">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</nav>
+
+<div class="main-content">
+
+    <div class="app-header">
+        <br/>
+        <br/>
+
+        <table class="table">
+            <thead class="table-dark">
+            <tr>
+                <th>Num</th>
+                <th style="width:50%">Title</th>
+                <th>Author</th>
+                <th>Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="question, loop : ${paging}">
+<!--                <td th:text="${loop.count}"></td>-->
+                <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
+                <td>
+                    <a th:href="@{/question/detail/__${question.id}__}" th:text="${question.subject}"></a>
+                    <span class="text-danger small ms-2"
+                          th:if="${#lists.size(question.answerList)>0}"
+                          th:text="${#lists.size(question.answerList)}">
+
+                    </span>
+                </td>
+                <td><span th:if="${question.author !=null}" th:text="${question.author.name}"></span></td>
+                <td th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <!--페이징 처리 시작-->
+        <div th:if="${!paging.isEmpty()}">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{|?page=${paging.number -1}|}">
+                        <span>이전</span>
+                    </a>
+                </li>
+                <li th:each="page: ${#numbers.sequence(0, paging.totalPages -1)}"
+                    th:if="${page >= paging.number -5 and page <= paging.number+5}"
+                    th:classappend="${page == paging.number} ? 'active'"
+                    class="page-item">
+                    <a th:text="${page}" class="page-link" th:href="@{|?page=${page}|}"></a>
+                </li>
+                <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+                    <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
+                        <span>다음</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- 페이징처리 끝 -->
+        <!--질문 등록하기 버튼-->
+        <a th:href="@{/question/create}" class="btn btn-primary">질문 등록</a>
+
+    </div>
+</div>
+
+<footer class="py-5">
+    <div class="container">
+        <p class="m-0 text-center text-dark">
+            Copyright &copy; WigleWigle - 2024
+        </p>
+    </div>
+
+
+</footer>
+</body>
+</html>
+<!--<div class="container my-3">-->
+<!--    <table class="table">-->
+<!--        <thead class="table-dark">-->
+<!--        <tr>-->
+<!--            <th>번호</th>-->
+<!--            <th>제목</th>-->
+<!--            <th>작성일시</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr th:each="question, loop : ${qList}">-->
+<!--            <td th:text="${loop.count}"></td>-->
+<!--            <td>-->
+<!--                <a th:href="@{/question/detail/__${question.id}__}" th:text="${question.subject}"></a>-->
+<!--            </td>-->
+<!--            <td th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--</div>-->
+
+<!--</body>-->
+<!--</html>-->
+
+
